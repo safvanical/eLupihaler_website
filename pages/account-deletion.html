@@ -33,10 +33,56 @@
             </div>
             <div class="content-section">
                 <div class="container">
-                    <div class="dev-notice">
-                        <h3>🚧 Developer Section</h3>
-                        <p>This section is currently under development. Account deletion functionality will be available in future updates. Please contact our support team for immediate assistance with account management.</p>
+                       <div class="delete-flow-container">
+                        <h2>Start the Deletion Process</h2>
+                        <p>To securely delete your account, please follow the steps below. This two-step verification process ensures that only you can authorize this action.</p>
+
+                        <!-- Step 1: Sign In -->
+                        <div id="signInStep" class="step">
+                            <h3>Step 1: Sign In to Your Account</h3>
+                            <p>Enter your registered email or phone number to receive a sign-in OTP.</p>
+                            <input type="text" id="userIdentifier" placeholder="Enter Email or Phone Number">
+                            <button id="sendSignInOtpBtn" class="btn btn-primary">Send Sign-In OTP</button>
+                        </div>
+
+                        <!-- Step 2: Verify Sign-In OTP -->
+                        <div id="verifySignInStep" class="step hidden">
+                            <h3>Step 2: Verify Sign-In</h3>
+                            <p>An OTP has been sent to <strong id="displayIdentifier1"></strong>. Enter it below to continue.</p>
+                            <input type="text" id="signInOtp" placeholder="Enter 6-Digit Sign-In OTP" maxlength="6">
+                            <button id="verifySignInBtn" class="btn btn-primary">Sign In & Continue</button>
+                        </div>
+
+                        <!-- Step 3: Deletion Confirmation -->
+                        <div id="confirmDeletionStep" class="step hidden">
+                            <h3>Step 3: Final Confirmation</h3>
+                            <div class="warning-box">
+                                <strong>WARNING:</strong> You are about to permanently delete your account and all associated data. This action cannot be reversed.
+                            </div>
+                            <p>Are you sure you want to proceed? Click the button below to receive a final deletion OTP.</p>
+                            <button id="sendDeleteOtpBtn" class="btn btn-danger">Yes, I'm Sure. Send Deletion OTP</button>
+                        </div>
+
+                        <!-- Step 4: Verify Deletion OTP -->
+                        <div id="verifyDeletionStep" class="step hidden">
+                            <h3>Step 4: Final Verification</h3>
+                            <p>A final deletion OTP has been sent to <strong id="displayIdentifier2"></strong>. Enter it to permanently delete your account.</p>
+                            <input type="text" id="deleteOtp" placeholder="Enter 6-Digit Deletion OTP" maxlength="6">
+                            <button id="confirmDeleteBtn" class="btn btn-danger">Confirm & Permanently Delete</button>
+                        </div>
+
+                        <!-- Step 5: Success Message -->
+                        <div id="successStep" class="step hidden">
+                            <h3>Account Deleted</h3>
+                            <div class="message success" style="display: block; text-align: center;">
+                                Your account has been successfully and permanently deleted. We are sorry to see you go.
+                            </div>
+                        </div>
+
+                        <!-- General Message Area for Errors/Info -->
+                        <div id="messageArea" class="message"></div>
                     </div>
+
 
                     <h2>Account Deletion Information</h2>
                     <p>We respect your right to control your personal data. This page will provide you with options to manage and delete your eLupiHaler account and associated data.</p>

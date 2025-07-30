@@ -365,3 +365,132 @@ body {
         display: flex;
     }
 }
+
+
+/* ================================================= */
+/* == STYLES FOR INTERACTIVE ACCOUNT DELETION FLOW == */
+/* ================================================= */
+
+.delete-flow-container {
+    background-color: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 15px;
+    padding: 2rem;
+    margin-top: 2rem;
+    text-align: center;
+}
+
+.delete-flow-container .step {
+    padding: 1rem 0;
+}
+
+.delete-flow-container .step h3 {
+    color: #1e3c72;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+}
+
+.delete-flow-container .step p {
+    color: #495057;
+    max-width: 500px;
+    margin: 0 auto 1.5rem auto;
+}
+
+.delete-flow-container input[type="text"] {
+    width: 100%;
+    max-width: 400px;
+    padding: 12px 15px;
+    margin-bottom: 1.5rem;
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    font-size: 1rem;
+    text-align: center;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.delete-flow-container input[type="text"]:focus {
+    outline: none;
+    border-color: #2a5298;
+    box-shadow: 0 0 0 3px rgba(42, 82, 152, 0.2);
+}
+
+/* Base button style */
+.btn {
+    display: inline-block;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 50px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s, background-color 0.3s;
+    width: 100%;
+    max-width: 400px;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+}
+
+.btn:disabled {
+    background-color: #adb5bd;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Primary and Danger button colors */
+.btn-primary {
+    background-color: #2a5298;
+    color: white;
+}
+.btn-primary:hover:not(:disabled) {
+    background-color: #1e3c72;
+}
+
+.btn-danger {
+    background-color: #d9534f;
+    color: white;
+}
+.btn-danger:hover:not(:disabled) {
+    background-color: #c9302c;
+}
+
+/* To hide steps */
+.hidden {
+    display: none;
+}
+
+/* Warning box for confirmation */
+.warning-box {
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    color: #721c24;
+    padding: 1rem;
+    border-radius: 8px;
+    margin: 1.5rem auto;
+    max-width: 500px;
+    text-align: left;
+}
+.warning-box strong {
+    font-weight: bold;
+}
+
+/* General message area for errors and success */
+.message {
+    padding: 1rem;
+    border-radius: 8px;
+    margin: 1.5rem auto 0 auto;
+    max-width: 500px;
+    font-weight: 500;
+    display: none; /* Hidden by default */
+}
+.message.success {
+    background-color: #d4edda;
+    color: #155724;
+    display: block;
+}
+.message.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    display: block;
+}
