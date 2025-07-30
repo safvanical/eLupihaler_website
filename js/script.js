@@ -36,6 +36,8 @@ document.addEventListener("click", function (event) {
   }
 });
 
+let currentUrl = window.location.hostname;
+
 document.addEventListener("DOMContentLoaded", () => {
   // --- Mobile Menu Toggle ---
   const mobileMenuBtn = document.getElementById("mobileMenuBtn");
@@ -54,45 +56,13 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // --- API Configuration ---
-  const API_BASE_URL = "http://localhost:5000"; // Adjust to your real API base URL if needed
-
-  /*
-    =============================================================================
-    == NEW SESSION-BASED BACKEND API REQUIREMENTS ==
-    =============================================================================
-    This flow is stateful and relies on a session ID.
-
-    1. POST `${API_BASE_URL}/auth/send-otp`
-       - PURPOSE: Initial sign-in.
-       - BODY: { "identifier": "user@example.com" }
-       - ACTION: Generates and sends a sign-in OTP.
-       - RESPONSE (Success): { "success": true, "message": "Sign-in OTP sent." }
-
-    2. POST `${API_BASE_URL}/auth/verify-otp`
-       - PURPOSE: Verify sign-in OTP to create a secure session.
-       - BODY: { "identifier": "user@example.com", "otp": "123456" }
-       - ACTION: Validates the OTP. If correct, creates a temporary, secure session.
-       - RESPONSE (Success): { "success": true, "message": "Sign-in successful.", "sessionId": "UNIQUE_SECURE_SESSION_ID" }
-       - RESPONSE (Error):   { "success": false, "message": "Invalid OTP." }
-
-    3. POST `${API_BASE_URL}/account/send-deletion-otp`
-       - PURPOSE: Send the *final* deletion OTP, authorized by the session.
-       - BODY: { "sessionId": "UNIQUE_SECURE_SESSION_ID" }
-       - ACTION: Validates the session ID. If valid, sends a *new* OTP for final deletion confirmation.
-       - RESPONSE (Success): { "success": true, "message": "Final deletion OTP sent." }
-
-    4. POST `${API_BASE_URL}/account/delete`
-       - PURPOSE: Verify the final OTP and permanently delete the account.
-       - BODY: { "sessionId": "UNIQUE_SECURE_SESSION_ID", "otp": "654321" }
-       - ACTION: Validates session and final OTP. If both are correct, deletes the account.
-       - RESPONSE (Success): { "success": true, "message": "Account deleted successfully." }
-    =============================================================================
-    */
+  const API_BASE_URL = "https://be.bs.naveda.tech"; // Adjust to your real API base URL if needed
 
   // --- State Variables ---
   let currentUserIdentifier = "";
   let currentUserOtpToken = "";
-  let currentSessionId = null; // Will hold the session ID after successful sign-in
+  let currentSessionId = null;
+  let currentUrl = window.location.hostname; // Will hold the session ID after successful sign-in
 
   // --- Real API Service using fetch ---
   const apiService = {
@@ -205,7 +175,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let value = {
       phoneNumber: identifier,
-      url: "test.edutech.local",
+      url: currentUrl,
     };
 
     clearMessage();
@@ -238,7 +208,7 @@ document.addEventListener("DOMContentLoaded", () => {
     disableButton(buttons.verifySignIn, "Verifying...");
 
     let payloadBody = {
-      url: "test.edutech.local",
+      url: currentUrl,
       uniqueToken: currentUserOtpToken,
       otp: otp,
     };
