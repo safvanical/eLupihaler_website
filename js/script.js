@@ -110,7 +110,9 @@ document.addEventListener("DOMContentLoaded", () => {
       });
       const data = await response.json();
       if (!response.ok) {
-        throw new Error(data.message || `Error: ${response.status}`);
+        // Extract error message from various possible response structures
+        const errorMessage = data.message || data.data?.message || data.error || `Error: ${response.status}`;
+        throw new Error(errorMessage);
       }
       return data;
     } catch (error) {
