@@ -229,7 +229,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const response = await apiService.verifySignInOtp(payloadBody);
 
     if (response.data) {
-      currentSessionId = response.data.id; // << STORE THE SESSION ID
+      // Extract session ID from the nested response structure
+      currentSessionId = response.data.session?.shortTermSession?.id || response.data.session?.id;
+      if (!currentSessionId) {
+        showMessage("Session ID not found in response", "error");
+        return;
+      }
       clearMessage();
       showStep("confirmDeletion");
     } else {
