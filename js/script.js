@@ -180,6 +180,10 @@ document.addEventListener("DOMContentLoaded", () => {
     let value = {
       phoneNumber: identifier,
       url: currentUrl,
+      countryInfo: {
+        name: "India",
+        dial_code: "+91"
+      }
     };
 
     clearMessage();
