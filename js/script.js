@@ -56,7 +56,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // --- API Configuration ---
-  const API_BASE_URL = "https://be.bs.naveda.tech"; // Adjust to your real API base URL if needed
+  const API_BASE_URL = "https://elupihaler.com/be"; // Adjust to your real API base URL if needed
 
   // --- State Variables ---
   let currentUserIdentifier = "";
@@ -185,13 +185,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (response.data) {
       currentUserIdentifier = identifier;
-      currentUserOtpToken = response.data;
+      currentUserOtpToken = response.data.otpToken;
       displayIdentifier1.textContent = currentUserIdentifier;
       displayIdentifier2.textContent = currentUserIdentifier; // Set it here for later use
-      showMessage(response.message, "success");
+      showMessage(response.data.message || "OTP sent successfully", "success");
       showStep("verifySignIn");
     } else {
-      showMessage(response.message, "error");
+      showMessage(response.message || "Failed to send OTP", "error");
     }
     enableButton(buttons.sendSignInOtp, "Send Sign-In OTP");
   });
@@ -209,7 +209,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let payloadBody = {
       url: currentUrl,
-      uniqueToken: currentUserOtpToken,
+      otpToken: currentUserOtpToken,
       otp: otp,
     };
 
@@ -243,11 +243,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const response = await apiService.sendDeletionOtp(currentSessionId);
 
     if (response.data) {
-      showMessage(response.message, "success");
+      showMessage(response.data.message || "Deletion OTP sent successfully", "success");
       currentUserOtpToken = response.data;
       showStep("verifyDeletion");
     } else {
-      showMessage(response.message, "error");
+      showMessage(response.message || "Failed to send deletion OTP", "error");
     }
     enableButton(buttons.sendDeleteOtp, "Yes, I'm Sure. Send Deletion OTP");
   });
@@ -269,7 +269,7 @@ document.addEventListener("DOMContentLoaded", () => {
     disableButton(buttons.confirmDelete, "Deleting...");
 
     payloadBody = {
-      uniqueToken: currentUserOtpToken,
+      otpToken: currentUserOtpToken,
       otp: otp,
     };
 
