@@ -111,7 +111,8 @@ document.addEventListener("DOMContentLoaded", () => {
       const data = await response.json();
       if (!response.ok) {
         // Extract error message from various possible response structures
-        const errorMessage = data.message || data.data?.message || data.error || `Error: ${response.status}`;
+        const errorMessage = data.message || data.data?.message || data.error || data.apiStatus?.message || `Error: ${response.status}`;
+        console.error("Server Error Response:", data);
         throw new Error(errorMessage);
       }
       return data;
@@ -202,7 +203,7 @@ document.addEventListener("DOMContentLoaded", () => {
       showMessage(response.data.message || "OTP sent successfully", "success");
       showStep("verifySignIn");
     } else {
-      showMessage(response.message || "Failed to send OTP", "error");
+      showMessage(response.message || response.data?.message || "Failed to send OTP", "error");
     }
     enableButton(buttons.sendSignInOtp, "Send Sign-In OTP");
   });
@@ -233,8 +234,7 @@ document.addEventListener("DOMContentLoaded", () => {
       showStep("confirmDeletion");
     } else {
       showMessage(
-        response.message ||
-          "Verification failed or session ID was not provided.",
+        response.message || response.data?.message || "Verification failed or session ID was not provided.",
         "error"
       );
     }
@@ -259,7 +259,7 @@ document.addEventListener("DOMContentLoaded", () => {
       currentUserOtpToken = response.data;
       showStep("verifyDeletion");
     } else {
-      showMessage(response.message || "Failed to send deletion OTP", "error");
+      showMessage(response.message || response.data?.message || "Failed to send deletion OTP", "error");
     }
     enableButton(buttons.sendDeleteOtp, "Yes, I'm Sure. Send Deletion OTP");
   });
@@ -294,7 +294,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (response.data) {
       showStep("success");
     } else {
-      showMessage(response.message, "error");
+      showMessage(response.message || response.data?.message || "Failed to delete account", "error");
       enableButton(buttons.confirmDelete, "Confirm & Permanently Delete");
     }
   });
