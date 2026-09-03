@@ -81,7 +81,7 @@ document.addEventListener("DOMContentLoaded", () => {
     sendDeletionOtp: async (sessionId) => {
       return await postRequest(
         `${API_BASE_URL}/auth/account/delete/sendOtp`,
-        {},
+        { appName: "eLupihaler" },
         { "session-id": sessionId }
       );
     },
@@ -182,6 +182,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let value = {
       phoneNumber: identifier,
       url: currentUrl,
+      appName: "eLupihaler",
       countryInfo: {
         name: "India",
         dial_code: "+91"
@@ -209,8 +210,8 @@ document.addEventListener("DOMContentLoaded", () => {
   // Step 2: Verify Sign-In and Get Session ID
   buttons.verifySignIn.addEventListener("click", async () => {
     const otp = inputs.signInOtp.value.trim();
-    if (otp.length !== 6) {
-      showMessage("Please enter a valid 6-digit OTP.", "error");
+    if (otp.length !== 4) {
+      showMessage("Please enter a valid 4-digit OTP.", "error");
       return;
     }
 
@@ -221,6 +222,7 @@ document.addEventListener("DOMContentLoaded", () => {
       url: currentUrl,
       otpToken: currentUserOtpToken,
       otp: otp,
+      appName: "eLupihaler",
     };
 
     const response = await apiService.verifySignInOtp(payloadBody);
@@ -265,8 +267,8 @@ document.addEventListener("DOMContentLoaded", () => {
   // Step 4: Confirm Deletion with Final OTP and Session ID
   buttons.confirmDelete.addEventListener("click", async () => {
     const otp = inputs.deleteOtp.value.trim();
-    if (otp.length !== 6) {
-      showMessage("Please enter a valid 6-digit OTP.", "error");
+    if (otp.length !== 4) {
+      showMessage("Please enter a valid 4-digit OTP.", "error");
       return;
     }
     if (!currentSessionId) {
@@ -281,6 +283,7 @@ document.addEventListener("DOMContentLoaded", () => {
     payloadBody = {
       otpToken: currentUserOtpToken,
       otp: otp,
+      appName: "eLupihaler",
     };
 
     const response = await apiService.deleteAccount(
