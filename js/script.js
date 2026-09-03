@@ -169,7 +169,11 @@ document.addEventListener("DOMContentLoaded", () => {
   buttons.sendSignInOtp.addEventListener("click", async () => {
     const identifier = inputs.userIdentifier.value.trim();
     if (!identifier) {
-      showMessage("Please enter your email or phone number.", "error");
+      showMessage("Please enter your phone number.", "error");
+      return;
+    }
+    if (!/^\d{6,15}$/.test(identifier)) {
+      showMessage("Please enter a valid phone number (6-15 digits).", "error");
       return;
     }
 
