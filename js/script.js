@@ -197,11 +197,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (response.data) {
       currentUserIdentifier = identifier;
-      currentUserOtpToken = response.data.otpToken;
-      // Convert otpToken to number to match database bigint type
-      if (currentUserOtpToken && typeof currentUserOtpToken === 'string') {
-        currentUserOtpToken = Number(currentUserOtpToken);
-      }
+      currentUserOtpToken = String(response.data.otpToken);
       displayIdentifier1.textContent = currentUserIdentifier;
       displayIdentifier2.textContent = currentUserIdentifier; // Set it here for later use
       showMessage(response.data.message || "OTP sent successfully", "success");
@@ -225,15 +221,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let payloadBody = {
       url: currentUrl,
-      otpToken: currentUserOtpToken,
+      otpToken: String(currentUserOtpToken),
       otp: otp,
       appName: "eLupihaler",
     };
-
-    // Convert otpToken to number to match database bigint type
-    if (payloadBody.otpToken && typeof payloadBody.otpToken === 'string') {
-      payloadBody.otpToken = Number(payloadBody.otpToken);
-    }
 
     const response = await apiService.verifySignInOtp(payloadBody);
 
@@ -270,11 +261,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (response.data) {
       showMessage(response.data.message || "Deletion OTP sent successfully", "success");
-      currentUserOtpToken = response.data;
-      // Convert otpToken to number to match database bigint type
-      if (currentUserOtpToken && typeof currentUserOtpToken === 'string') {
-        currentUserOtpToken = Number(currentUserOtpToken);
-      }
+      currentUserOtpToken = String(response.data);
       showStep("verifyDeletion");
     } else {
       showMessage(response.message || response.data?.message || "Failed to send deletion OTP", "error");
@@ -299,15 +286,10 @@ document.addEventListener("DOMContentLoaded", () => {
     disableButton(buttons.confirmDelete, "Deleting...");
 
     payloadBody = {
-      otpToken: currentUserOtpToken,
+      otpToken: String(currentUserOtpToken),
       otp: otp,
       appName: "eLupihaler",
     };
-
-    // Convert otpToken to number to match database bigint type
-    if (payloadBody.otpToken && typeof payloadBody.otpToken === 'string') {
-      payloadBody.otpToken = Number(payloadBody.otpToken);
-    }
 
     const response = await apiService.deleteAccount(
       payloadBody,
